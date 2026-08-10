@@ -118,6 +118,32 @@ footer{padding:38px 0 60px;text-align:center;color:var(--muted);font-size:12px}
  .section{padding:24px 21px;border-radius:20px}.section-top{flex-wrap:wrap}.badge{margin-left:0}
  .support-box{display:block}.support-box .btn{margin-top:14px}
 }
+
+/* Premium mobile sidebar */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(15,23,42,.45);backdrop-filter:blur(3px);z-index:90;opacity:0;visibility:hidden;transition:.25s}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+.sidebar{
+ position:fixed;top:0;right:0;width:min(340px,88vw);height:100dvh;z-index:100;
+ background:rgba(255,255,255,.97);backdrop-filter:blur(24px);
+ box-shadow:-24px 0 70px rgba(15,23,42,.18);
+ transform:translateX(105%);transition:transform .3s cubic-bezier(.22,.8,.25,1);
+ display:flex;flex-direction:column;padding:22px 18px
+}
+.sidebar.open{transform:translateX(0)}
+.sidebar-head{display:flex;align-items:center;justify-content:space-between;padding:2px 5px 22px;border-bottom:1px solid var(--line)}
+.sidebar-brand{display:flex;align-items:center;gap:10px;font-weight:850;font-size:15px}
+.sidebar-logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--violet))}
+.close-side{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;color:#334155;font-size:22px;cursor:pointer}
+.side-nav{padding:18px 0;display:grid;gap:7px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:14px 13px;border-radius:14px;text-decoration:none;color:#334155;font-weight:750;font-size:14px;transition:.18s}
+.side-nav a:hover{background:#eff6ff;color:var(--blue);transform:translateX(2px)}
+.side-icon{width:35px;height:35px;border-radius:11px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);color:var(--blue);display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+.side-divider{height:1px;background:var(--line);margin:5px 0 12px}
+.side-support{margin-top:auto;padding:18px;border-radius:17px;background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #dbe7fb}
+.side-support strong{display:block;font-size:14px}.side-support p{font-size:12px;color:var(--muted);margin:4px 0 13px}
+.side-mail{display:inline-flex;align-items:center;justify-content:center;width:100%;height:42px;border-radius:12px;background:var(--blue);color:#fff;text-decoration:none;font-weight:800;font-size:12px}
+body.sidebar-open{overflow:hidden}
+
 </style>
 </head>
 <body id="top">
@@ -131,9 +157,32 @@ footer{padding:38px 0 60px;text-align:center;color:var(--muted);font-size:12px}
       <a href="#delete">Account Deletion</a>
       <a href="#support">Support</a>
     </nav>
-    <button class="menu" aria-label="Menu" onclick="document.querySelector('.navlinks').style.display=document.querySelector('.navlinks').style.display==='flex'?'none':'flex'">☰</button>
+    <button class="menu" aria-label="Open menu" onclick="openSidebar()">☰</button>
   </div>
 </header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar" aria-label="Website menu">
+  <div class="sidebar-head">
+    <div class="sidebar-brand"><span class="sidebar-logo">ES</span>EXPENSE SHARE APP</div>
+    <button class="close-side" onclick="closeSidebar()" aria-label="Close menu">×</button>
+  </div>
+  <nav class="side-nav">
+    <a href="#about" onclick="closeSidebar()"><span class="side-icon">A</span>About</a>
+    <a href="#privacy" onclick="closeSidebar()"><span class="side-icon">P</span>Privacy Policy</a>
+    <a href="#terms" onclick="closeSidebar()"><span class="side-icon">T</span>Terms & Conditions</a>
+    <a href="#delete" onclick="closeSidebar()"><span class="side-icon">×</span>Account Deletion</a>
+    <a href="#support" onclick="closeSidebar()"><span class="side-icon">?</span>Support</a>
+    <div class="side-divider"></div>
+    <a href="#top" onclick="closeSidebar()"><span class="side-icon">↑</span>Back to Home</a>
+  </nav>
+  <div class="side-support">
+    <strong>Need help?</strong>
+    <p>Contact Expense Share support directly.</p>
+    <a class="side-mail" href="mailto:jybsapps@gmail.com">Email Support</a>
+  </div>
+</aside>
+
 
 <main class="container">
 <section class="hero">
@@ -242,10 +291,20 @@ footer{padding:38px 0 60px;text-align:center;color:var(--muted);font-size:12px}
 </footer>
 </main>
 <a class="back" href="#top" aria-label="Back to top">↑</a>
-</body>
-</html>
-</footer>
-</main>
-<a class="back" href="#top" aria-label="Back to top">↑</a>
+
+<script>
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+  document.body.classList.add('sidebar-open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.classList.remove('sidebar-open');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+</script>
+
 </body>
 </html>
